@@ -19,6 +19,7 @@ This talk will include:
 - Formatting tips
 - Error handling tips
 - Consistent function returns
+- Testing output
 
 * Get on Gopher Slack
 
@@ -143,7 +144,7 @@ But we are not going to look at them today (there is no time)
 
 The net/http package provides a HTTP client.
 
-.play code/intro/net_1.go /START OMIT/,/END OMIT/ 
+.play code/intro/net_1.go /START OMIT/,/END OMIT/
 
 The client handles HTTP Keep-Alive using a pool of connections, by default. 
 (This is configurable, of course.)
@@ -152,7 +153,7 @@ The client handles HTTP Keep-Alive using a pool of connections, by default.
 
 The net/http package also provides an HTTP server.
 
-.play code/intro/net_2.go /START OMIT/,/END OMIT/ 
+.play code/intro/net_2.go /START OMIT/,/END OMIT/
 
 This is a high-performance, DoS-hardened, production-ready web server.
 It serves dl.google.com
@@ -193,35 +194,73 @@ General:
 
 * fmt General verbs - simple string
 
-.play code/fmt1/main.go /START OMIT/,/END OMIT/ 
+.play code/fmt1/main.go /START OMIT/,/END OMIT/
 
 * fmt General verbs - struct (part 1)
 
-.code code/fmt2/main.go /^type/,/^\)/ 
+.code code/fmt2/main.go /^type/,/^\)/
 
 * fmt General verbs - struct (part 2)
 
-.play code/fmt2/main.go /START OMIT/,/END OMIT/ 
+.play code/fmt2/main.go /START OMIT/,/END OMIT/
 
 * fmt - Generating Errors with errors.New()
 
 This is my least favorite way of seeing erors created.
 
-.play code/fmt_error1/main.go /START OMIT/,/END OMIT/ 
+.play code/fmt_error1/main.go /START OMIT/,/END OMIT/
 
 * fmt - Generating Errors with fmt.Errorf()
 
 This is how I create errors.
 
-.play code/fmt_error2/main.go /START OMIT/,/END OMIT/ 
+.play code/fmt_error2/main.go /START OMIT/,/END OMIT/
 
 * Consistent function Returns - Bad
 
-.code code/function_returns/bad.go /START OMIT/,/END OMIT/ 
+.code code/function_returns/bad.go /START OMIT/,/END OMIT/
 
 * Consistent function Returns - Good
 
-.code code/function_returns/good.go /START OMIT/,/END OMIT/ 
+.code code/function_returns/good.go /START OMIT/,/END OMIT/
+
+* Testing output - Poor
+
+.code code/foo/foo_test.go /START POOR-OMIT/,/END POOR-OMIT/
+
+*Output*
+
+	--- FAIL: Test_AddTen (0.00s)
+		foo_test.go:12: unexpected value
+
+* Testing output - Better
+
+.code code/foo/foo_test.go /START BETTER-OMIT/,/END BETTER-OMIT/
+
+*Output*
+
+	--- FAIL: Test_AddTenBetter (0.00s)
+		foo_test.go:19: unexpected value, got 12
+
+* Testing output - Better Yet
+
+.code code/foo/foo_test.go /START BETTER-YET-OMIT/,/END BETTER-YET-OMIT/
+
+*Output*
+
+	--- FAIL: Test_AddTenBetterYet (0.00s)
+		foo_test.go:26: unexpected value, exp: 11, got 12
+
+* Testing output - Best
+
+.code code/foo/foo_test.go /START BEST-OMIT/,/END BEST-OMIT/
+
+*Output*
+
+	--- FAIL: Test_AddTenBest (0.00s)
+		foo_test.go:32: unexpected value, exp: 11, got 12
+
+*NOTE:* Not all my colleagues agree with me that this is the best.
 
 * Code Resources
 
